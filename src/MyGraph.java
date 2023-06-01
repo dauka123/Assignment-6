@@ -50,4 +50,29 @@ public class MyGraph<V> {
         List<Vertex> neighbors = list.get(source);
         return neighbors != null && neighbors.contains(destination);
     }
+
+    public List<Vertex> getNeighbors(Vertex vertex) {
+        validateVertex(vertex);
+        return list.getOrDefault(vertex, new LinkedList<>());
+    }
+
+    public void DFS(Vertex start) {
+        validateVertex(start);
+        Map<Vertex, Boolean> visited = new HashMap<>();
+        for (Vertex vertex:list.keySet()) {
+            visited.put(vertex,false);
+        }
+        DFSHelper(start, visited);
+
+    }
+
+    private void DFSHelper(Vertex vertex, Map<Vertex, Boolean> visited) {
+        visited.put(vertex, true);
+        System.out.print(vertex + " ");
+        for (Vertex neighbor : list.get(vertex)) {
+            if (!visited.get(neighbor)) {
+                DFSHelper(neighbor, visited);
+            }
+        }
+    }
 }
