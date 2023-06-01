@@ -75,4 +75,47 @@ public class MyGraph<V> {
             }
         }
     }
+
+    public void BFS(Vertex start){
+        Set<Vertex> visited = new HashSet<>();
+        Queue<Vertex> queue = new LinkedList<>();
+
+        visited.add(start);
+        queue.add(start);
+
+        while (!queue.isEmpty()) {
+            Vertex currentVertex = queue.poll();
+            System.out.print(currentVertex + " ");
+            Set<Vertex<V>> neighbors = currentVertex.getAdjVertices().keySet();
+            for (Vertex<V> neighbor : neighbors) {
+                if (!visited.contains(neighbor)) {
+                    visited.add(neighbor);
+                    queue.add(neighbor);
+                }
+            }
+        }
+    }
+    public Map<Vertex, Double> dijkstra(Vertex start) {
+        Map<Vertex, Double> distances = new HashMap<>();
+        for (Vertex node : list.keySet()) {
+            distances.put(node, Double.MAX_VALUE);
+        }
+        distances.put(start, 0d);
+
+        PriorityQueue<Vertex> queue = new PriorityQueue<>(Comparator.comparingDouble(distances::get));
+        queue.add(start);
+
+        while (!queue.isEmpty()) {
+            Vertex currentVertex = queue.poll();
+            for (Edge neighbor : list.get(currentVertex)) {
+                double distance = distances.get(currentVertex) + neighbor.getWeight();
+                if (distance < distances.get(currentVertex)) {
+                    distances.put(currentVertex, distance);
+                    queue.add((Vertex) neighbor.getDest());
+                }
+            }
+        }
+        return distances;
+    }
+
 }
