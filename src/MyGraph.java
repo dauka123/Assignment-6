@@ -43,4 +43,11 @@ public class MyGraph<V> {
         }
         list.get(destination).remove(source);
     }
+
+    public boolean hasEdge(Vertex source, Vertex destination) {
+        validateVertex(source);
+        validateVertex(destination);
+        List<Vertex> neighbors = list.get(source);
+        return neighbors != null && neighbors.contains(destination);
+    }
 }
